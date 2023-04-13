@@ -1,8 +1,6 @@
 import { useTeacherContext } from "react"
-import { useStudentContext } from "react"
 import { Navigate } from "react-router-dom"
-import TeacherContext from "../../contexts/AuthContext"
-import StudentContext from"../../contexts/StudentContext"
+
 
 const ProtectedTeacherRoute = ({ children }) => {
   const { currentTeacher, isAuthLoaded } = useTeacherContext(TeacherContext)

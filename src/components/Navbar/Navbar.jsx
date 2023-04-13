@@ -1,28 +1,33 @@
-import { Link, NavLink } from 'react-router-dom';
+import React from 'react'
+import './HomeCard.css'
 
-const Navbar = () => {
-  return (
-    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Wallahack</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">  
-            <li className="nav-item">
-              <NavLink
-                className={({ isActive }) => `nav-link ${isActive ? 'active': ''}`}
-                to="/login"
-              >
-                Login
-              </NavLink>
-            </li>
-          </ul>
-        </div>
+export default function HomeCard({ color, img_url, number, position, left, title, text }) {
+
+  const style = {
+      backgroundColor: color,
+  }
+
+  return left ? (
+    <div className="homeCard fade-in-bottom">
+      <div className={position} style={style}>
+        <img src={img_url} alt="homecard" />
       </div>
-    </nav>
-  )
+      <div className="card-text">
+        <h2>{number}</h2>
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </div>
+    </div>
+  ) : (
+    <div className="homeCard fade-in-bottom reverse-small">
+      <div className="card-text">
+        <h2>{number}</h2>
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </div>
+      <div className={position} style={style}>
+        <img src={img_url} alt="homecard" />
+      </div>
+    </div>
+  );
 }
-
-export default Navbar;

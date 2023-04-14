@@ -1,33 +1,37 @@
-import React from 'react'
-import './HomeCard.css'
+import { Link, NavLink } from "react-router-dom";
 
-export default function HomeCard({ color, img_url, number, position, left, title, text }) {
 
-  const style = {
-      backgroundColor: color,
-  }
+const Navbar =() => {
 
-  return left ? (
-    <div className="homeCard fade-in-bottom">
-      <div className={position} style={style}>
-        <img src={img_url} alt="homecard" />
-      </div>
-      <div className="card-text">
-        <h2>{number}</h2>
-        <h3>{title}</h3>
-        <p>{text}</p>
-      </div>
-    </div>
-  ) : (
-    <div className="homeCard fade-in-bottom reverse-small">
-      <div className="card-text">
-        <h2>{number}</h2>
-        <h3>{title}</h3>
-        <p>{text}</p>
-      </div>
-      <div className={position} style={style}>
-        <img src={img_url} alt="homecard" />
-      </div>
-    </div>
-  );
+    return(
+        <div>
+         <nav className="navbar navbar-expand-lg bg-light">
+            <div className="container-fluid">
+                <NavLink className="navbar-brand" to='/'>
+                </NavLink>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <h5><strong>Menú</strong></h5>
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="" id="navbarSupportedContent">
+                    <ul className="navbar-nav me-auto mb-2 ">
+                        <li className=" navbarList-link">                           
+                            <NavLink className={({isActive}) => 
+                            `nav-link ${isActive ? 'active': ''}`}
+                            to= "/login">
+                                Login
+                            </NavLink>
+                            <hr></hr>
+                        </li>
+                    </ul>
+                </div>
+               
+                
+            </div>
+        </nav>
+
+        </div>
+       
+    )
 }
+export default Navbar;

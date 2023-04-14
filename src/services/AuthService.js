@@ -1,20 +1,5 @@
-import createHttp from './Base.services';
+import { createHttp } from './BaseService';
 
-const authHttp = createHttp(true);
-const noAuthHttp = createHttp();
+const http = createHttp(false);
 
-export const register = (body) => 
-    noAuthHttp
-    .post('/register', body)
-
-export const login = (body) =>
-    noAuthHttp
-    .post("/login", body)
-
-export const getCurrentUser = () => 
-    authHttp
-    .get("/users/me");
-
-export const activateAccount = (token) => 
-    noAuthHttp
-    .get(`/activate/${token}`);
+export const login = ({ teacherID, password }) => http.post('/login', { teacherID, password })

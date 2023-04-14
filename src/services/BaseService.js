@@ -1,9 +1,9 @@
 import axios from "axios";
-import { getAccessToken, logout } from "../store/AccessTokenStore";
+import { getAccessToken, logout } from "../stores/AccessTokenStore";
 
 const INVALID_STATUS_CODES = [401];
 
-const createHttp = (useAccessToken = false) => {
+ export const createHttp = (useAccessToken = false) => {
   const http = axios.create({
     baseURL: 'http://localhost:3000',
 });
@@ -35,5 +35,3 @@ http.interceptors.response.use(
 );
   return http;
 };
-
-export default createHttp;

@@ -1,6 +1,6 @@
-import { createHttp } from './BaseService';
+import { createHttp } from '../services/BaseService'
 
 const authenticatedHttp = createHttp(true);
 const unauthenticatedHttp = createHttp(false);
 
-export const getTeacher = () => authenticatedHttp.get('/teacher/me');
+export const getCurrentUser = () => authenticatedHttp.get('/teacher/me');

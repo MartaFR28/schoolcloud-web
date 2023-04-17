@@ -1,13 +1,12 @@
-import createHttp from "./Base.services";
+import { createHttp } from "./BaseService";
 
 const authHttp = createHttp(true);
-//const noAuthHttp = createHttp();
 
-export const getMessages = (currentUser, owner) => 
-    authHttp.get(`/messages/${currentUser}/${owner}`);
+export const getMessages = (currentUser, studentUser) => 
+    authHttp.get(`/messages/${currentUser}/${studentUser}`);
 
-export const createMessage = (body) => 
-    authHttp.post(`/messages/create`, body);
+export const createMessage = (writter, receiver, message) => 
+    authHttp.post(`/messages`, { writter, receiver, message });
 
-export const selectUser = (currentUser) => 
-    authHttp.get(`/messages/select/${currentUser}`);
+export const selectUser = (currentUserId) => 
+    authHttp.get(`/messages/${currentUserId}`);

@@ -1,20 +1,18 @@
-import { useFormik } from 'formik';
 import { useContext } from 'react';
-import FormControl from '../../components/FormControl/FormControl';
-import Input from '../../components/Input/Input';
-import TeacherContext from '../../contexts/TeacherContext';
-import { login as loginService } from '../../services/AuthService';
-import { setAccessToken } from '../../stores/AccessTokenStore';
-import { loginSchema } from './schemas/login.schema';
+import { useFormik } from 'formik';
+import Input from '../../Input/Input';
+import AuthContext from '../../../contexts/AuthContext';
+import FormControl from '../../FormControl/FormControl';
+import { teacherLogin  } from '../../../services/AuthService';
+import { loginSchema } from '../../../views/Login/schemas/login.schema';
 
 const initialValues = {
-  email: '',
-  password: '',
-  teacherID: ''
+  teacherID: '',
+  password: ''
 }
 
-const Login = () => {
-  const { login } = useContext(TeacherContext);
+const TeacherLogin = () => {
+  const { login } = useContext(AuthContext);
 
   const {
     values, errors, touched, handleChange, handleBlur,
@@ -25,9 +23,8 @@ const Login = () => {
     validateOnChange: false,
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      loginService({ ID: values.teacherID, password: values.password }) // llama a /login del back pasandole el email y la password
+      teacherLogin({ teacherID: values.teacherID, password: values.password }) 
         .then(response => {
-          // Usar el login del contexto
           login(response.accessToken);
         })
         .catch(err => {
@@ -39,16 +36,15 @@ const Login = () => {
           setSubmitting(false)
         })
 
-      // Peticion al back para que me devuelva el JWT
     }
   });
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>teacherLogin</h1>
 
       <form onSubmit={handleSubmit}>
-        <FormControl text="teacherID" error={touched.teacherID && errors.teacherID} htmlFor="teacherID">
+        <FormControl text="TeacherID" error={touched.teacherID && errors.teacherID} htmlFor="teacherID">
           <Input
             id="teacherID"
             name="teacherID"

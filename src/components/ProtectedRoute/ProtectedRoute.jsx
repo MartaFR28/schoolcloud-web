@@ -1,34 +1,22 @@
-import { useTeacherContext } from "react"
+import { useContext } from "react";
 import { Navigate } from "react-router-dom"
+import AuthContext from "../../contexts/AuthContext";
 
 
-const ProtectedTeacherRoute = ({ children }) => {
-  const { currentTeacher, isAuthLoaded } = useTeacherContext(TeacherContext)
+const ProtectedRoute = ({ children }) => {
+  const { teacherUserr, studentUser, isAuthLoaded } = useContext(AuthContext)
 
-  console.log({ currentTeacher, isAuthLoaded });
-
-  if (!isAuthLoaded) {
-    return <p>Loading teacher area...</p>
-  }
-
-  if (!currentTeacher) {
-    return <Navigate to="/login" />
-  }
-
-  return children;
-}
-
-const ProtectedStudentRoute = ({ children }) => {
-  const { currentStudent, isAuthLoaded } = useStudentContext(StudentContext)
-
-  console.log({ currentStudent, isAuthLoaded });
+  console.log({ teacherUserr, studentUser, isAuthLoaded });
 
   if (!isAuthLoaded) {
-    return <p>Loading studetn area...</p>
+    return <p>Loading...</p>
   }
 
-  if (!currentStudent) {
-    return <Navigate to="/login" />
+  if (!teacherUser) {
+    return <Navigate to="/teacherlogin" />
+  }
+  if (!studentrUser) {
+    return <Navigate to="/studentlogin" />
   }
 
   return children;

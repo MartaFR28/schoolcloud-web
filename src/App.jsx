@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import Login from './components/Login/schemas/Login'
+import Profile from './views/TeacherProfile/TeacherProfile'
+
 import Navbar from './components/Navbar/Navbar'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+import StudentLogin from './components/Login/schemas/StudentLogin'
+import TeacherLogin from './components/Login/schemas/TeacherLogin'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +15,16 @@ function App() {
     <div className="App">
       <Navbar/>
       <Routes>
-        <Route path="login" element={<Login/>} />
+        {/*LOGIN*/}
+        <Route path="student-portal" element={<StudentLogin/>} />
+        <Route path="login" element={<TeacherLogin/>} />
+        {/*TEACHERPROFILE*/}
+        <Route path="Profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+
       </Routes>
     </div>
   )

@@ -20,18 +20,20 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (
-      error?.response?.status && INVALID_STATUS_CODES.includes(error.response.status)
-    ) {
+    if (error?.response?.status && INVALID_STATUS_CODES.includes(error.response.status)) { // Si tengo un error 401, probablemente movida de JWT. Borro el token y te llevo al login
       if (getAccessToken()) {
-        logout();
-        if (window.location.pathname !== "/login") {
-          window.location.assign("/login");
-        }
+        logout()
+
+        // if (window.location.pathname !== "/login") {
+        //   window.location.assign("/login");
+        // }
       }
     }
-    return Promise.reject(error);
+
+    return Promise.reject(error)
   }
-);
-  return http;
-};
+)
+
+return http;
+}
+

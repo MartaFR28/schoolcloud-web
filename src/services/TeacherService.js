@@ -3,4 +3,4 @@ import { createHttp } from './BaseService';
 const authenticatedHttp = createHttp(true);
 const unauthenticatedHttp = createHttp(false);
 
-export const getCurrentUser = () => authenticatedHttp.get('/studentEmail');
+export const getCurrentTeacher = () => authenticatedHttp.get('/teachers/me')

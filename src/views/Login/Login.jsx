@@ -1,14 +1,16 @@
 import { useFormik } from 'formik';
 import { useContext } from 'react';
-import Input from '../../Input/Input';
-import AuthContext from '../../../Contexts/AuthContext';
-import FormControl from '../../FormControl/FormControl';
-import { login as loginService } from '../../../services/AuthService';
-import { loginSchema } from '../../../views/Login/schemas/login.schema';
+import FormControl from '../../components/FormControl/FormControl';
+import Input from '../../components/Input/Input';
+import AuthContext from '../../contexts/AuthContext';
+import { login as loginService } from '../../services/AuthService';
+import { setAccessToken } from '../../stores/AccessTokenStore';
+import { loginSchema } from './schemas/login.schema';
 
 const initialValues = {
-  teacherID: '',
-  password: ''
+  email: '',
+  password: '',
+  teacherID: ''
 }
 
 const Login = () => {
@@ -23,9 +25,8 @@ const Login = () => {
     validateOnChange: false,
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      loginService({ teacherID: values.teacherID, password: values.password }) 
+      loginService({ ID: values.teacherID, password: values.password })
         .then(response => {
-          // Usar el login del contexto
           login(response.accessToken);
         })
         .catch(err => {
@@ -45,7 +46,7 @@ const Login = () => {
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
-        <FormControl text="TeacherID" error={touched.teacherID && errors.teacherID} htmlFor="email">
+        <FormControl text="teacherID" error={touched.teacherID && errors.teacherID} htmlFor="teacherID">
           <Input
             id="teacherID"
             name="teacherID"

@@ -1,37 +1,45 @@
-import { Link, NavLink } from "react-router-dom";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
+const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-const Navbar =() => {
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-    return(
-        <div>
-         <nav className="navbar navbar-expand-lg bg-light">
-            <div className="container-fluid">
-                <NavLink className="navbar-brand" to='/login'>Login</NavLink>
-                <NavLink className="navbar-brand" to='/student-portal'>Student Portal</NavLink>
-                {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <h5><strong>Menú</strong></h5>
-                    <span className="navbar-toggler-icon"></span>
-                </button> */}
-                {/* <div className="" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 ">
-                        <li className=" navbarList-link">                           
-                            <NavLink className={({isActive}) => 
-                            `nav-link ${isActive ? 'active': ''}`}
-                            to= "/login">
-                                Login
-                            </NavLink>
-                            <hr></hr>
-                        </li>
-                    </ul>
-                </div> */}
-               
-                
-            </div>
-        </nav>
+  return (
+    <nav className="navbar" style={{backgroundColor: "blue", color: "white", position: "fixed", top: 0, left: 0, width: "100%", zIndex: 999}}>
+      <div className="menu-icon" onClick={toggleMenu}>
+        <i className={`fas ${menuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+      </div>
 
-        </div>
-       
-    )
-}
+      <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
+        <li className="nav-link">
+          <Link to="">SCHOOLCLOUD</Link>
+        </li>
+        <li className="nav-link dropdown">
+          <div onClick={toggleMenu}>
+            <a href="#">Log in as...</a>
+            <i className="fas fa-chevron-down"></i>
+          </div>
+          <ul className="dropdown-menu" style={{display: menuOpen ? "block" : "none"}}>
+            <li>
+              <Link to="/Teacher/Login">I'm a teacher</Link>
+            </li>
+            <li>
+              <Link to="/Student/Login">I'm a student</Link>
+            </li>
+            <li>
+              <Link to="/CreateNewStudent">Create a new student</Link>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
 export default Navbar;
+

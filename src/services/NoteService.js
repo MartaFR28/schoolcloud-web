@@ -1,12 +1,14 @@
 import { createHttp } from "./BaseService";
 
-const authHttp = createHttp(true);
+const authenticatedHttp = createHttp(true);
+const unauthenticatedHttp = createHttp(false);
 
-export const getNotes = (currentUser, studentUser) => 
-    authHttp.get(`/notes/${currentUser}/${studentUser}`);
+export const getNotes = (currentUser, studentUser) => authenticatedHttp.get(`/notes/${currentUser}/${studentUser}`);
 
-export const createNotes = (writter, receiver, note) => 
-    authHttp.post(`/notes`, { writter, receiver, note });
+export const createNotes = (writter, receiver, note) => authenticatedHttp.post(`/notes`, { writter, receiver, note });
 
-export const selectUser = (currentUserId) => 
-    authHttp.get(`/notes/:getCurrentUser/${currentUserId}`);
+export const selectUser = (currentUserId) => authenticatedHttp.get(`/notes/:getCurrentUser/${currentUserId}`);
+
+export const detailNotes = (id) =>authenticatedHttp.get(`/messages/${id}`)
+
+export const deleteNotes = (id) =>authenticatedHttp.delete(`/messages/${id}`)

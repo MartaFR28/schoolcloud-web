@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AuthContext from "../../contexts/AuthContext";
 
-const StudentProfile = () => {
+const StudentPortal = () => {
   const { currentUser } = useContext(AuthContext)
   return (
     <div>
@@ -10,4 +10,4 @@ const StudentProfile = () => {
   )
 }
 
-export default StudentProfile;
+export default StudentPortal;

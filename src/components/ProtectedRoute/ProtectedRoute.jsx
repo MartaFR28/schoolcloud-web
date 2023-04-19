@@ -4,9 +4,9 @@ import AuthContext from "../../contexts/AuthContext";
 
 
 const ProtectedRoute = ({ children }) => {
-  const { teacherUserr, studentUser, isAuthLoaded } = useContext(AuthContext)
+  const { teacherUser, studentUser, isAuthLoaded } = useContext(AuthContext)
 
-  console.log({ teacherUserr, studentUser, isAuthLoaded });
+  console.log({ teacherUser, studentUser, isAuthLoaded });
 
   if (!isAuthLoaded) {
     return <p>Loading...</p>

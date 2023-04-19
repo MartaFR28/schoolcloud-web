@@ -1,17 +1,23 @@
 import { useFormik } from 'formik';
 import { useContext } from 'react';
-import Input from '../../Input/Input';
-import AuthContext from '../../../Contexts/AuthContext';
-import FormControl from '../../FormControl/FormControl';
-//import { studentLogin  } from '../../../services/AuthService';
-import { loginSchema } from '../../../views/Login/schemas/login.schema';
+import Input from '../../components/Input/Input';
+import { Navigate } from "react-router-dom";
+import AuthContext from '../../contexts/AuthContext';
+import FormControl from '../../components/FormControl/FormControl';
+import { StudentLogin as  StudentLogin } from '../../services/StudentService';
+import { loginSchema } from '../../schemas/login.schema';
 
 const initialValues = {
-  email: '',
-
+  studentEmail: '',
 }
 
-const StudentLogin = () => {
+const Login = () => {
+  const { studentLogin, currentUser } = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Navigate to="/studentPortal" />;
+  }
+
   const {
     values, errors, touched, handleChange, handleBlur,
     isSubmitting, handleSubmit, setSubmitting, setFieldError
@@ -23,7 +29,7 @@ const StudentLogin = () => {
     onSubmit: (values) => {
       studentLogin({ email: values.email }) 
         .then(response => {
-          studentLogin(response.accessToken);
+          login(response.accessToken);
         })
         .catch(err => {
           if (err?.response?.data?.message) {
@@ -33,22 +39,21 @@ const StudentLogin = () => {
           }
           setSubmitting(false)
         })
-
     }
   });
 
   return (
     <div>
-      <h1>studentLogin</h1>
+      <h1>Student Login</h1>
       <form onSubmit={handleSubmit}>
-        <FormControl text="Email" error={touched.email && errors.email} htmlFor="email">
+        <FormControl text="Email" error={touched.studentEmail && errors.studentEmail} htmlFor="email">
           <Input
             id="email"
             name="email"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.email}
-            error={touched.email && errors.email}
+            value={values.studentEmail}
+            error={touched.studentEmail && errors.studentEmail}
             placeholder="Enter your student email..."
           />
         </FormControl>

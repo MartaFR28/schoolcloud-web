@@ -1,18 +1,21 @@
-import { useContext } from 'react';
 import { useFormik } from 'formik';
-import Input from '../../Input/Input';
-import AuthContext from '../../../contexts/AuthContext';
-import FormControl from '../../FormControl/FormControl';
-import { teacherLogin  } from '../../../services/AuthService';
-import { loginSchema } from '../../../views/Login/schemas/login.schema';
+import { useContext } from 'react';
+import Input from '../../components/Input/Input';
+import AuthContext from '../../contexts/AuthContext';
+import FormControl from '../../components/FormControl/FormControl';
+import { TeacherLogin as TeacherLogin } from '../../services/TeacherService';
+import { loginSchema } from '../../schemas/login.schema';
 
 const initialValues = {
   teacherID: '',
   password: ''
 }
 
-const TeacherLogin = () => {
-  const { login } = useContext(AuthContext);
+const login = () => {
+  const { teacherLogin, currentUser } = useContext(AuthContext);
+  if (currentUser) {
+    return <Navigate to="/teacherProfile" />;
+  }
 
   const {
     values, errors, touched, handleChange, handleBlur,

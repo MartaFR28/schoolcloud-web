@@ -11,8 +11,6 @@ export const studentList = () => authenticatedHttp.get('/students');
 
 export const getStudentById = (studentId) => authenticatedHttp.get(`/students/${studentId}`);
 
-export const StudentLogin = (studentEmail) => authenticatedHttp.post('/student/login,${studentEmail}');
-
-  
+export const studentLogin = (studentEmail) => authenticatedHttp.post(`/student/login`, {studentEmail});
 
 export const CreateNewStudent = (student) => authenticatedHttp.post("/students", student);

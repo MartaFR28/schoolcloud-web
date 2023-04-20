@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/classroom';
+const API_URL = 'http://localhost:3000';
 
-const getClass = () => {
+const getImage = () => {
   return axios.get(API_URL)
     .then(res => res.data);
 };
 
-export { getClass };
+export { getImage };

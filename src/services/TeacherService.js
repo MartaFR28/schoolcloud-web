@@ -11,7 +11,7 @@ export const teacherList = () => authenticatedHttp.get('/teachers');
 
 export const getTeacherById = (id) => authenticatedHttp.get(`/teachers/${id}`);
 
-export const TeacherLogin = (teacherID, password) => authenticatedHttp.post('/teacher/login, ${teacherID,password}');
+export const teacherLogin = (teacherID, password) => authenticatedHttp.post('/teacher/login, ${teacherID,password}');
 
   
   

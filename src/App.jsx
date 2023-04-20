@@ -8,6 +8,7 @@ import TeacherLogin from './views/Login/TeacherLogin'
 import CreateNewStudent from './views/CreateNewStudent/CreateNewStudent'
 import StudentPortal from './views/StudentPortal/StudentPortal'
 import TeacherProfile from './views/TeacherProfile/TeacherProfile'
+//import StudentDetails from './views/StudentsDetail/StudentDetail'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,24 +16,30 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
-      <Routes> 
-        <Route path="Teacher/profile" element={<TeacherProfile/>} />
-        <Route path="Teacher/login" element={<TeacherLogin/>} />
-        <Route path="Student/portal" element={<StudentPortal/>} />
-        <Route path="Student/login" element={<StudentLogin/>} />
-        <Route path="CreateNewStudent" element={<CreateNewStudent/>}/>
-        </Routes>
-
-          <ProtectedRoute>
-            <TeacherProfile />
-            <StudentPortal/>
-            <CreateNewStudent/>
-          </ProtectedRoute>
-          
+  
+      <Routes>
+      <Route path='teacherlogin' element={<TeacherLogin/>}/>
+      <Route path='StudentLogin' element={<StudentLogin/>}/>
+      <Route path='/students/:studentId' element={<StudentLogin/>}/>
       
+      <Route path="TeacherProfile" element={
+      <ProtectedRoute>
+           <TeacherProfile/>
+           </ProtectedRoute>
+          } />
+      <Route path="StudentPortal" element={
+      <ProtectedRoute>
+           <StudentPortal/>
+           </ProtectedRoute>
+          } />
+      <Route path="CreateNewStudent" element={
+      <ProtectedRoute>
+           <CreateNewStudent/>
+           </ProtectedRoute>
+          }/>
+      </Routes> 
     </div>
   )
 }
 
 export default App;
-

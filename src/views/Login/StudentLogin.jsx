@@ -1,44 +1,49 @@
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import Input from '../../components/Input/Input';
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthContext from '../../contexts/AuthContext';
 import FormControl from '../../components/FormControl/FormControl';
-import { StudentLogin as  StudentLogin } from '../../services/StudentService';
 import { loginSchema } from '../../schemas/login.schema';
+import { studentLogin } from '../../services/StudentService';
 
 const initialValues = {
   studentEmail: '',
-}
+};
 
-const Login = () => {
-  const { studentLogin, currentUser } = useContext(AuthContext);
-
-  if (currentUser) {
-    return <Navigate to="/studentPortal" />;
-  }
+const Log = () => {
+  const navigate = useNavigate();
+  const { setLoggedUser } = useContext(AuthContext);
 
   const {
-    values, errors, touched, handleChange, handleBlur,
-    isSubmitting, handleSubmit, setSubmitting, setFieldError
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    handleSubmit,
+    setSubmitting,
+    setFieldError
   } = useFormik({
-    initialValues: initialValues,
+    initialValues,
     validateOnBlur: true,
     validateOnChange: false,
     validationSchema: loginSchema,
-    onSubmit: (values) => {
-      studentLogin({ email: values.email }) 
-        .then(response => {
-          login(response.accessToken);
-        })
-        .catch(err => {
-          if (err?.response?.data?.message) {
-            setFieldError('email', err?.response?.data?.message)
-          } else {
-            setFieldError('email', err.message)
-          }
-          setSubmitting(false)
-        })
+    onSubmit: async (values) => {
+      try {
+        setSubmitting(true);
+        await studentLogin(values.studentEmail);
+        setLoggedUser(values.studentEmail);
+        navigate(`/students/${values.studentEmail}`);
+      } catch (err) {
+        if (err?.response?.data?.message) {
+          setFieldError('studentEmail', err?.response?.data?.message);
+        } else {
+          setFieldError('studentEmail', err.message);
+        }
+      }
+      setSubmitting(false);
     }
   });
 
@@ -46,18 +51,19 @@ const Login = () => {
     <div>
       <h1>Student Login</h1>
       <form onSubmit={handleSubmit}>
-        <FormControl text="Email" error={touched.studentEmail && errors.studentEmail} htmlFor="email">
+        <FormControl text="studentEmail" error={touched.studentEmail && errors.studentEmail} htmlFor="studentEmail">
           <Input
-            id="email"
-            name="email"
+            id="studentEmail"
+            name="studentEmail"
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.studentEmail}
             error={touched.studentEmail && errors.studentEmail}
             placeholder="Enter your student email..."
+            type="email"
           />
         </FormControl>
-
+        
         <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? 'Submitting...'
@@ -66,7 +72,8 @@ const Login = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default StudentLogin;
+export default Log;
+

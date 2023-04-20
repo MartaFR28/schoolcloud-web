@@ -1,24 +1,10 @@
-function Input({
-  type = 'text', 
-  value, 
-  onChange, 
-  onBlur,
-  id, 
-  name, 
-  placeholder, 
-  rows = 3,
-  error, 
-  min, 
-  max, 
-  disabled = false,
-}) {
+const Input = ({
+  type = 'text', value, onChange, onBlur,
+  id, name, placeholder, rows = 3,
+  error, min, max, disabled = false,
+}) => {
   const commonProps = {
-    value, 
-    onChange, 
-    id, 
-    name, 
-    placeholder, 
-    onBlur,
+    value, onChange, id, name, placeholder, onBlur,
     className: `form-control ${error ? 'is-invalid' : ''}`
   }
   if (type === 'textarea') {

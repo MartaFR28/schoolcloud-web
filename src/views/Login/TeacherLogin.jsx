@@ -1,18 +1,20 @@
-import { useContext } from 'react';
 import { useFormik } from 'formik';
-import Input from '../../Input/Input';
-import AuthContext from '../../../contexts/AuthContext';
-import FormControl from '../../FormControl/FormControl';
-import { teacherLogin  } from '../../../services/AuthService';
-import { loginSchema } from '../../../views/Login/schemas/login.schema';
+import { useContext } from 'react';
+import Input from '../../components/Input/Input';
+import AuthContext from '../../contexts/AuthContext';
+import FormControl from '../../components/FormControl/FormControl';
+import { loginSchema } from '../../schemas/login.schema';
+import { useNavigate } from 'react-router-dom';
+
 
 const initialValues = {
   teacherID: '',
   password: ''
 }
 
-const TeacherLogin = () => {
-  const { login } = useContext(AuthContext);
+const Login = () => {
+  const navigate = useNavigate()
+  const { login, currentUser } = useContext(AuthContext);
 
   const {
     values, errors, touched, handleChange, handleBlur,
@@ -23,9 +25,9 @@ const TeacherLogin = () => {
     validateOnChange: false,
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      teacherLogin({ teacherID: values.teacherID, password: values.password }) 
+      login({ teacherID: values.teacherID, password: values.password }) 
         .then(response => {
-          login(response.accessToken);
+          navigate('/teacherProfile');
         })
         .catch(err => {
           if (err?.response?.data?.message) {
@@ -80,4 +82,4 @@ const TeacherLogin = () => {
   )
 }
 
-export default TeacherLogin;
+export default Login;

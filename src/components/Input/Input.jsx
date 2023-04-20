@@ -1,30 +1,33 @@
 const Input = ({
-    type = 'text', value, onChange, onBlur,
-    id, name, placeholder, rows = 3,
-    error, min, max, disabled = false,
-  }) => {
-    const commonProps = {
-      value, onChange, id, name, placeholder, onBlur,
-      className: `form-control ${error ? 'is-invalid' : ''}`
-    }
-    if (type === 'textarea') {
-      return (
-        <textarea
-          rows={rows}
-          disabled={disabled}
-          {...commonProps}
-        />
-      )
-    }
+  type = 'text', value, onChange, onBlur,
+  id, name, placeholder, rows = 3,
+  error, min, max, disabled = false,
+}) => {
+  const commonProps = {
+    value, onChange, id, name, placeholder, onBlur,
+    className: `form-control ${error ? 'is-invalid' : ''}`
+  }
+  if (type === 'textarea') {
     return (
-      <input
-        type={type}
-        min={min}
-        max={max}
+      <textarea
+        rows={rows}
         disabled={disabled}
         {...commonProps}
       />
     )
   }
-  
-  export default Input;
+  return (
+    <input
+      type={type}
+      min={min}
+      max={max}
+      disabled={disabled}
+      {...commonProps}
+    />
+  )
+}
+
+<><label htmlFor="img">Selecciona una imagen:</label><input type="file" id="img" name="img" /></>
+
+export default Input;
+

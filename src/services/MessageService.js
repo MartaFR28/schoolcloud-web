@@ -1,12 +1,17 @@
 import { createHttp } from "./BaseService";
 
-const authHttp = createHttp(true);
+const authenticatedHttp = createHttp(true);
+const unauthenticatedHttp = createHttp(false);
 
-export const getMessages = (currentUser, studentUser) => 
-    authHttp.get(`/messages/${currentUser}/${studentUser}`);
+export const getMessages = (currentUser, studentUser) => authenticatedHttp.get(`/messages/${currentUser}/${studentUser}`);
 
-export const createMessage = (writter, receiver, message) => 
-    authHttp.post(`/messages`, { writter, receiver, message });
+export const createMessage = (writter, receiver, message) => authenticatedHttp.post(`/messages`, { writter, receiver, message });
 
-export const selectUser = (currentUserId) => 
-    authHttp.get(`/messages/${currentUserId}`);
+export const selectUser = (currentUserId) =>authenticatedHttp.get(`/messages/${currentUserId}`);
+
+export const detailMessages = (id) =>authenticatedHttp.get(`/messages/${id}`)
+
+export const deleteMessages = (id) =>authenticatedHttp.delete(`/messages/${id}`)
+
+
+

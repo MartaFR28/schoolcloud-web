@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { getAccessToken, setAccessToken } from "../stores/AccessTokenStore";
-import { getCurrentTeacher as getCurrentUser } from '../services/TeacherService';
+import { getCurrentTeacher } from '../services/TeacherService';
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext()
@@ -12,40 +12,37 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null); // El usuario en sesión
   const [isAuthLoaded, setIsAuthLoaded] = useState(false); // Para saber si ya tengo usuario o al menos lo he comprobado
 
-  const getCurrentTeacher = useCallback((callback) => {
-    getCurrentUser() // llama a /users/me para que con el token, me traiga a mi usuario, se lo enchufe al contexto y toda mi aplicación sepa quien es
+  const getCurrentTeacherCallback = useCallback((callback) => {
+    getCurrentTeacher() // llama a /users/me para que con el token, me traiga a mi usuario, se lo enchufe al contexto y toda mi aplicación sepa quien es
       .then(user => {
         setCurrentUser(user)
         setIsAuthLoaded(true)
-        callback && callback() // Para cuando necesite redirigir despues de un login
+        if (callback) {
+          callback(); // Para cuando necesite redirigir después de un login
+        }
       })
   }, [])
 
-
   const login = useCallback((token) => {
-    const navigateToProfile = () => {
-      navigate('/teacherProfile')
-      }
-    // Lo guaaardo
-    setAccessToken(token);
-    getCurrentUser(navigateToProfile)
+    setAccessToken(token); // Guardar token
+    getCurrentTeacherCallback(() => {
+      navigate('/teacherProfile');
+    });
+  }, [getCurrentTeacherCallback, navigate]);
 
-  }, [getCurrentTeacher])
-
-
-  useEffect(() => { // UseEffect se ejecuta al menos una vez despues del primer render
+  useEffect(() => { // UseEffect se ejecuta al menos una vez después del primer render
     if (getAccessToken()) {
-      getCurrentUser()
+      getCurrentTeacherCallback();
     } else {
-      setIsAuthLoaded(true)
+      setIsAuthLoaded(true);
     }
-  }, [getCurrentUser])
+  }, [getCurrentTeacherCallback])
 
   const value = useMemo(() => {
     return {
       currentUser, // Usuario que está en sesión
       isAuthLoaded, // Si ya intenté saber si hay usuario en sesión
-      login // login
+      login,
     }
   }, [currentUser, isAuthLoaded, login])
 
@@ -55,3 +52,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   )
 }
+
+
+

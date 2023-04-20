@@ -18,7 +18,7 @@ function App() {
       <Navbar/>
   
       <Routes>
-      <Route path='teacherlogin' element={<TeacherLogin/>}/>
+      <Route path="/teacherlogin" element={<TeacherLogin/>}/>
       <Route path='StudentLogin' element={<StudentLogin/>}/>
       <Route path='/students/:studentId' element={<StudentLogin/>}/>
       

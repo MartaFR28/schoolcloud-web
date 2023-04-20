@@ -26,10 +26,10 @@ const Navbar = () => {
           </div>
           <ul className="dropdown-menu" style={{display: menuOpen ? "block" : "none"}}>
             <li>
-              <Link to="/teacherlogin">I'm a teacher</Link>
+              <Link to={"/teacherlogin"}>As a teacher</Link>
             </li>
             <li>
-              <Link to="/Studentlogin">I'm a student</Link>
+              <Link to={"/Studentlogin"}>As a student</Link>
             </li>
           </ul>
         </li>

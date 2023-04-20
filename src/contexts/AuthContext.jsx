@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { getAccessToken, setAccessToken } from "../stores/AccessTokenStore";
-import { getCurrentTeacher } from '../services/TeacherService';
+import { getCurrentTeacher as getCurrentTeacherService } from "../services/TeacherService";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext()
@@ -12,31 +12,30 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null); // El usuario en sesión
   const [isAuthLoaded, setIsAuthLoaded] = useState(false); // Para saber si ya tengo usuario o al menos lo he comprobado
 
-  const getCurrentTeacherCallback = useCallback((callback) => {
-    getCurrentTeacher() // llama a /users/me para que con el token, me traiga a mi usuario, se lo enchufe al contexto y toda mi aplicación sepa quien es
+  const getCurrentTeacher = useCallback((callback) => {
+    getCurrentTeacherService() // llama a /users/me para que con el token, me traiga a mi usuario, se lo enchufe al contexto y toda mi aplicación sepa quien es
       .then(user => {
         setCurrentUser(user)
         setIsAuthLoaded(true)
-        if (callback) {
-          callback(); // Para cuando necesite redirigir después de un login
-        }
+        callback & callback(); // Para cuando necesite redirigir después de un login
       })
-  }, [])
+  }, []);
 
   const login = useCallback((token) => {
     setAccessToken(token); // Guardar token
-    getCurrentTeacherCallback(() => {
+     const navigateToProfile = () => {
       navigate('/teacherProfile');
-    });
-  }, [getCurrentTeacherCallback, navigate]);
+    };
+  }, [getCurrentTeacher]
+  );
 
   useEffect(() => { // UseEffect se ejecuta al menos una vez después del primer render
     if (getAccessToken()) {
-      getCurrentTeacherCallback();
+      getCurrentTeacher();
     } else {
       setIsAuthLoaded(true);
     }
-  }, [getCurrentTeacherCallback])
+  }, [getCurrentTeacher]);
 
   const value = useMemo(() => {
     return {
@@ -44,14 +43,11 @@ export const AuthProvider = ({ children }) => {
       isAuthLoaded, // Si ya intenté saber si hay usuario en sesión
       login,
     }
-  }, [currentUser, isAuthLoaded, login])
+  }, [currentUser, isAuthLoaded, login]);
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
+  return <AuthContext.Provider value={value}>{children} </AuthContext.Provider>;
+};
+  
 
 
 
